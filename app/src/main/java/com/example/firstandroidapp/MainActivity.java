@@ -27,6 +27,6 @@ public class MainActivity extends AppCompatActivity {
         String [] names = {"Java", "Python", "Ruby", "JavaScript", "Mathlab"};
 
         Arrays.stream(names).forEach(s -> plList.append(s + "\n"));
-
+ //sdsdsdsdsd
     }
 }
