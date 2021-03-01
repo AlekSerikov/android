@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.vksearch.utils.NetworkUtils;
 
+import java.io.IOException;
 import java.net.URL;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,15 +29,17 @@ public class MainActivity extends AppCompatActivity {
         result = findViewById(R.id.tv_result);
 
         //create listener
-        System.out.println(searchField.getText().toString() + "!!!!!!!!!!!!!!");
-        URL generatedUrl = NetworkUtils.generateUrl(searchField.getText().toString());
-//        View.OnClickListener onClickListener = v -> result.setText(generatedUrl.toString());
+        View.OnClickListener onClickListener = v -> {
+            URL generatedUrl = NetworkUtils.generateUrl(searchField.getText().toString());
+            String response = null;
 
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println(searchField.getText().toString() + "!!!!!!!!!!!!!!");
+            try {
+                response = NetworkUtils.getResponseFromUrl(generatedUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+
+            result.setText(response);
         };
 
         //set listener to button
