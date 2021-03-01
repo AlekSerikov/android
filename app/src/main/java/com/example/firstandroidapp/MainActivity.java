@@ -24,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
         plList.setText("");
 
-        String [] names = {"Java", "Python", "Ruby", "JavaScript", "Mathlab"};
+        String [] names = {"Java", "Python", "Ruby", "JavaScript", "Mathlab", "Kotlin",
+                "sm", "JavaScript", "Mathlab", "Kotlin", "sm"};
 
         Arrays.stream(names).forEach(s -> plList.append(s + "\n"));
  //sdsdsdsdsd
