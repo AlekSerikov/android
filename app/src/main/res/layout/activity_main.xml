@@ -4,6 +4,9 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingStart="@dimen/horizontal_padding"
+    android:paddingEnd="@dimen/vertical_padding"
+    android:paddingTop="@dimen/vertical_padding"
     tools:context=".MainActivity">
 
     <LinearLayout
