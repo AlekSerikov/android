@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 public class NetworkUtils {
@@ -20,10 +21,10 @@ public class NetworkUtils {
     private static final String ACCESS_TOKEN_VALUE
             = "9931d1ca9931d1ca9931d1ca0b99477f99999319931d1caf90c3a6e1339b0e00ae4b545";
 
-    public static URL generateUrl(String userId) {
+    public static URL generateUrl(String userIds) {
         Uri buildUri = Uri.parse(VK_API_BASE_URL + VK_USERS_GET)
                 .buildUpon()
-                .appendQueryParameter(PARAM_USER_ID, userId)
+                .appendQueryParameter(PARAM_USER_ID, userIds)
                 .appendQueryParameter(PARAM_VERSION, "5.89")
                 .appendQueryParameter(PARAM_ACCESS_TOKEN, ACCESS_TOKEN_VALUE)
                 .build(); //Uri - универсальный идентификатор ресурса
@@ -34,7 +35,6 @@ public class NetworkUtils {
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
-
         return url;
     }
 
@@ -52,6 +52,8 @@ public class NetworkUtils {
             if (hasInput) {
                 return scanner.next();
             }
+            return null;
+        } catch (UnknownHostException e) {
             return null;
         } finally {
             urlConnection.disconnect();

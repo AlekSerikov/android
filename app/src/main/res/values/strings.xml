@@ -4,4 +4,6 @@
     <string name="input_id">Input VK user Id</string>
     <string name="search">Search!</string>
     <string name="result">Result will be shown here</string>
+
+    <string name="error_message">An error has occurred, please, try again later</string>
 </resources>

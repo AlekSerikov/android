@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.vksearch.utils.NetworkUtils;
@@ -17,14 +18,33 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
     private EditText searchField;
     private Button searchButton;
     private TextView result;
+    private TextView errorMessage;
+    private ProgressBar loadingIndicator;
+
+    private void showResultTextView() { //show result, hide error
+        result.setVisibility(View.VISIBLE);
+        errorMessage.setVisibility(View.INVISIBLE);
+    }
+
+    private void showErrorMessageTextView() {
+        result.setVisibility(View.INVISIBLE);
+        errorMessage.setVisibility(View.VISIBLE);
+
+    }
 
     //param, progress, result
     class VKQueryTask extends AsyncTask<URL, Void, String> {
+
+        @Override
+        protected void onPreExecute() { //start showing progress bar
+            loadingIndicator.setVisibility(View.VISIBLE);
+        }
 
         @Override
         protected String doInBackground(URL... urls) { //обрабатываем запрос
@@ -42,18 +62,29 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(String response) { //после обработки запроса в фоне
             String name = null;
             String lastName = null;
+            if (response != null && !response.isEmpty()) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray("response");
 
-            try {
-                JSONObject jsonObject = new JSONObject(response);
-                JSONArray jsonArray = jsonObject.getJSONArray("response");
-                JSONObject userInfo = jsonArray.getJSONObject(0);
-                name = userInfo.getString("first_name");
-                lastName = userInfo.getString("last_name");
+                    StringBuilder resultingString = new StringBuilder();
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject userInfo = jsonArray.getJSONObject(i);
+                        name = userInfo.getString("first_name");
+                        lastName = userInfo.getString("last_name");
 
-            } catch (JSONException e) {
-                e.printStackTrace();
+                        resultingString.append("Name: ").append(name).append("\n").append("Last name: ").append(lastName).append("\n\n");
+                    }
+                    result.setText(resultingString.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                showResultTextView();
+            } else {
+                showErrorMessageTextView();
             }
-            result.setText("Name: " + name + "\n" + "Last name: " + lastName); //добавляем рез в наше view
+            loadingIndicator.setVisibility(View.INVISIBLE); //end showing progress bar
         }
     }
 
@@ -66,13 +97,18 @@ public class MainActivity extends AppCompatActivity {
         searchField = findViewById(R.id.et_search_field);
         searchButton = findViewById(R.id.b_search_vk);
         result = findViewById(R.id.tv_result);
+        errorMessage = findViewById(R.id.tv_error_message);
+        loadingIndicator = findViewById(R.id.pb_loading_indicator);
 
         //create listener
         View.OnClickListener onClickListener = v -> {
-            URL generatedUrl = NetworkUtils.generateUrl(searchField.getText().toString());
-            new VKQueryTask().execute(generatedUrl);
+            if (searchField.getText().toString().isEmpty()) {
+                result.setText("Input id!");
+            } else {
+                URL generatedUrl = NetworkUtils.generateUrl(searchField.getText().toString());
+                new VKQueryTask().execute(generatedUrl);
+            }
         };
-
         //set listener to button
         searchButton.setOnClickListener(onClickListener);
     }
