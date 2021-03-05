@@ -11,26 +11,26 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class NumbersAdaptor extends RecyclerView.Adapter<NumbersAdaptor.NumberViewHolder> {
-    private static int viewHolderCount;
+    private static int VIEW_HOLDER_COUNT;
     private int numberOfItems;
 
     public NumbersAdaptor(int numberOfItems) {
         this.numberOfItems = numberOfItems;
-        viewHolderCount = 0;
+        VIEW_HOLDER_COUNT = 0;
     }
 
     @NonNull
-    @Override //create ViewHolder              //patent - RecycleView
+    @Override //create ViewHolder              //parent - RecycleView
     public NumberViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         Context context = parent.getContext();
-        int layoutIdForListItem = R.layout.number_list_element; // получили id xml файла опис-го наш элемент
+        int layoutIdForListItem = R.layout.number_list_element; // получили id xml файла опис-го наш элемент, по имени xml файла
 
         LayoutInflater inflater =  LayoutInflater.from(context); //позволяет из xml файла создать новый объект view
         View view = inflater.inflate(layoutIdForListItem, parent, false); //созданные view будут помещаться внутрь ViewGroup parent, т.е. RecycleView
-                                                                                       // false - recycleView сам поместит в себя
+        // false - recycleView сам поместит в себя
         NumberViewHolder viewHolder = new NumberViewHolder(view);
-        viewHolder.viewHolderIndex.setText("View holder index: " + viewHolderCount);//устанавливаем значение index нашего view holder
-        viewHolderCount++;
+        viewHolder.viewHolderIndex.setText("View holder index: " + VIEW_HOLDER_COUNT);//устанавливаем значение index нашего view holder
+        VIEW_HOLDER_COUNT++;
 
         return viewHolder;
     }
@@ -47,14 +47,13 @@ public class NumbersAdaptor extends RecyclerView.Adapter<NumbersAdaptor.NumberVi
     }
 
     //class
-    // здесь мы создаем один элемент нашего RecycleView
-    class NumberViewHolder extends RecyclerView.ViewHolder { //обертка для элемента списка
+    // класс описывающий элемент нашего RecycleView
+    class NumberViewHolder extends RecyclerView.ViewHolder { //обертка для нашего числа, эл списка
         TextView listItemNumberView;                         //соттветсвуют двум TV в нашем представлении
         TextView viewHolderIndex;
 
         public NumberViewHolder(View itemView) {//наш объект сгенерированный из xml файла
             super(itemView);                    // ViewHolder обернет переданный объект
-
             listItemNumberView = itemView.findViewById(R.id.tv_number_item);
             viewHolderIndex = itemView.findViewById(R.id.tv_view_holder_number);
         }
