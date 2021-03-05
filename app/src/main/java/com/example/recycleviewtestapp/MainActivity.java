@@ -8,13 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Build;
 import android.os.Bundle;
 
-import java.util.Collection;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class MainActivity extends AppCompatActivity {
-    private RecyclerView numbersList;
+    private RecyclerView numbersRecyclerView;
+    private NumbersAdaptor adaptor;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -22,15 +19,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        numbersList = findViewById(R.id.rv_numbers);
+        numbersRecyclerView = findViewById(R.id.rv_numbers); //RecyclerView
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this); //эл будут располагаться элементы в RV в виде списка
+        numbersRecyclerView.setLayoutManager(layoutManager);
+        numbersRecyclerView.setHasFixedSize(true); //фиксированное кол элементов
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this); //как будут располагаться элементы в LV
-        numbersList.setLayoutManager(layoutManager);
-
-        numbersList.setHasFixedSize(true);
-
-
-        IntStream.range(1, 100).boxed().collect(Collectors.toList());
+        adaptor = new NumbersAdaptor(100); //создаем адаптер
+        numbersRecyclerView.setAdapter(adaptor);//устанавливаем адаптер для RV
 
     }
 }
