@@ -31,5 +31,7 @@ public class MainActivity extends AppCompatActivity {
         adaptor = new NumbersAdaptor(100); //создаем адаптер
         numbersList.setAdapter(adaptor);//устанавливаем адаптер для RV
 
+
+
     }
 }
