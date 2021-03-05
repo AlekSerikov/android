@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         numbersRecyclerView.setLayoutManager(layoutManager);
         numbersRecyclerView.setHasFixedSize(true); //фиксированное кол элементов
 
-        adaptor = new NumbersAdaptor(100); //создаем адаптер
+        adaptor = new NumbersAdaptor(100, this); //создаем адаптер
         numbersRecyclerView.setAdapter(adaptor);//устанавливаем адаптер для RV
 
     }

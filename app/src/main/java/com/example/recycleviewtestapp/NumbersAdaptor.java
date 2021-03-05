@@ -1,11 +1,13 @@
 package com.example.recycleviewtestapp;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -13,9 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 public class NumbersAdaptor extends RecyclerView.Adapter<NumbersAdaptor.NumberViewHolder> {
     private static int VIEW_HOLDER_COUNT;
     private int numberOfItems;
+    private Context parent;
 
-    public NumbersAdaptor(int numberOfItems) {
+    public NumbersAdaptor(int numberOfItems, Context parent) {
         this.numberOfItems = numberOfItems;
+        this.parent = parent;
         VIEW_HOLDER_COUNT = 0;
     }
 
@@ -56,6 +60,12 @@ public class NumbersAdaptor extends RecyclerView.Adapter<NumbersAdaptor.NumberVi
             super(itemView);                    // ViewHolder обернет переданный объект
             listItemNumberView = itemView.findViewById(R.id.tv_number_item);
             viewHolderIndex = itemView.findViewById(R.id.tv_view_holder_number);
+
+            itemView.setOnClickListener(v -> {
+                int positionIndex =  getAdapterPosition();
+                Toast toast = Toast.makeText(parent, "Element " + positionIndex + " was clicked!", Toast.LENGTH_SHORT);
+                toast.show();
+            });
         }
 
         void bind(int listIndex) {
