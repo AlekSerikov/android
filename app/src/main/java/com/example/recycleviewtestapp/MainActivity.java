@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView numbersList;
+    private NumbersAdaptor adaptor;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -22,15 +23,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        numbersList = findViewById(R.id.rv_numbers);
-
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this); //как будут располагаться элементы в LV
+        numbersList = findViewById(R.id.rv_numbers); //RecyclerView
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this); //как будут располагаться элементы в RV
         numbersList.setLayoutManager(layoutManager);
+        numbersList.setHasFixedSize(true); //фиксированное кол элементов
 
-        numbersList.setHasFixedSize(true);
-
-
-        IntStream.range(1, 100).boxed().collect(Collectors.toList());
+        adaptor = new NumbersAdaptor(100); //создаем адаптер
+        numbersList.setAdapter(adaptor);//устанавливаем адаптер для RV
 
     }
 }
