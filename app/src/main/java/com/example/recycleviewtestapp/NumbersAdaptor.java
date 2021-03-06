@@ -33,7 +33,7 @@ public class NumbersAdaptor extends RecyclerView.Adapter<NumbersAdaptor.NumberVi
         View view = inflater.inflate(layoutIdForListItem, parent, false); //созданные view будут помещаться внутрь ViewGroup parent, т.е. RecycleView
         // false - recycleView сам поместит в себя
         NumberViewHolder viewHolder = new NumberViewHolder(view);
-        viewHolder.viewHolderIndex.setText("View holder index: " + VIEW_HOLDER_COUNT);//устанавливаем значение index нашего view holder
+        viewHolder.viewHolderIndex.setText("View holder index: " + VIEW_HOLDER_COUNT);//устанавливаем значение index нашего view holder при создании
         VIEW_HOLDER_COUNT++;
 
         return viewHolder;
@@ -61,10 +61,12 @@ public class NumbersAdaptor extends RecyclerView.Adapter<NumbersAdaptor.NumberVi
             listItemNumberView = itemView.findViewById(R.id.tv_number_item);
             viewHolderIndex = itemView.findViewById(R.id.tv_view_holder_number);
 
-            itemView.setOnClickListener(v -> {
+            itemView.setOnClickListener(v -> {// holder кликабелен, на него можно навесить лисенер
                 int positionIndex =  getAdapterPosition();
+                //Из parent берем контекст (MainActivity extends Context)
                 Toast toast = Toast.makeText(parent, "Element " + positionIndex + " was clicked!", Toast.LENGTH_SHORT);
                 toast.show();
+                listItemNumberView.setText("cl- d");
             });
         }
 
